@@ -1,0 +1,33 @@
+#!/bin/sh
+
+
+REPO_DIR=$(git rev-parse --show-toplevel)
+BACKUP_DIR="$REPO_DIR/backup"
+
+mkdir -p "$BACKUP_DIR"
+
+
+TIMESTAMP=$(date +%Y%m%d%H%M%S)
+BACKUP_FILE="$BACKUP_DIR/vimrc_$TIMESTAMP"
+
+
+SOURCE_FILE="$REPO_DIR/vimrc"
+TARGET_DIR="$HOME"
+TARGET_FILE="$TARGET_DIR/.vimrc"
+
+
+if [ -f "$TARGET_FILE" ]; then
+    cp "$TARGET_FILE" "$BACKUP_FILE"
+fi
+
+
+if [ -f "$SOURCE_FILE" ]; then
+    cp "$SOURCE_FILE" "$TARGET_FILE"
+    echo "$SOURCE_FILE has been copied to $TARGET_FILE in the parent directory."
+else
+    echo "Warning: File $SOURCE_FILE does not exist in the repository root."
+fi
+
+
+exit 0
+
